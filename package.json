@@ -1,10 +1,11 @@
 {
   "name": "tickplusbackend",
   "version": "1.0.0",
-  "description": "",
+  "description": "��#\u0000 \u0000T\u0000i\u0000c\u0000k\u0000p\u0000l\u0000u\u0000s\u0000-\u0000B\u0000a\u0000c\u0000k\u0000e\u0000n\u0000d\u0000\r\u0000 \u0000\r\u0000 \u0000E\u0000x\u0000p\u0000r\u0000e\u0000s\u0000s\u0000 \u0000S\u0000e\u0000r\u0000v\u0000e\u0000r\u0000 \u0000t\u0000o\u0000 \u0000c\u0000o\u0000n\u0000n\u0000e\u0000c\u0000t\u0000 \u0000M\u0000o\u0000n\u0000g\u0000o\u0000D\u0000B\u0000 \u0000D\u0000a\u0000t\u0000a\u0000b\u0000a\u0000s\u0000e\u0000 \u0000w\u0000i\u0000t\u0000h\u0000 \u0000R\u0000e\u0000a\u0000c\u0000t\u0000F\u0000r\u0000o\u0000n\u0000t\u0000e\u0000n\u0000d\u0000\r\u0000 \u0000",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +16,6 @@
     "express": "^4.19.2",
     "mongoose": "^8.3.1",
     "nodemon": "^3.1.0"
-  }
+  },
+  "devDependencies": {}
 }

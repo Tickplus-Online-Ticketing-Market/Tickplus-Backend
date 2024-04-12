@@ -8,6 +8,9 @@ const express = require("express");
 const cors = require("cors");
 const ConnectToDB = require("./config/ConnectToDB");
 
+// Import routes
+const exampleRoutes = require("./routes/_ExapmleRoutes");
+
 // Create an Express app
 const app = express();
 
@@ -19,7 +22,12 @@ app.use(cors());
 ConnectToDB();
 
 // Routing
-app.post("/", "Welcome to Tick+");
+app.get("/", (req, res) => {
+  res.send("Welcome to Tick+");
+});
+
+// Component Routing
+app.use("/example", exampleRoutes);
 
 // Start the server
 app.listen(process.env.PORT);
