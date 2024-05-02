@@ -21,6 +21,9 @@ const auctionListingSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  remainingDays: {
+    type: Number,
+  },
   winningBid: {
     type: String,
   },

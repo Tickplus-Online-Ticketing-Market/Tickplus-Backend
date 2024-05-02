@@ -14,6 +14,10 @@ router.get(
   AuctionController.retrieveAllAuctionListings
 ); // retrieve all
 router.get(
+  "/my-auction-listings/active",
+  AuctionController.retrieveActiveAuctionListings
+); // retrieve all
+router.get(
   "/my-auction-listings/my/:spectatorId",
   AuctionController.retrieveAllMyAuctionListings
 ); // retrieve all
