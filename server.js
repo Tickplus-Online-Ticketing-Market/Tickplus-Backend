@@ -10,6 +10,7 @@ const ConnectToDB = require("./config/ConnectToDB");
 
 // Import routes
 const exampleRoutes = require("./routes/_ExapmleRoutes");
+const eventRouter = require("./routes/EventRoute");
 
 // Create an Express app
 const app = express();
@@ -28,8 +29,9 @@ app.get("/", (req, res) => {
 
 // Component Routing
 app.use("/example", exampleRoutes);
+app.use("/events", eventRouter)
 
 // Start the server
 
 app.listen(process.env.PORT);
-const eventRouter = require("./routes/EventRoute");
+

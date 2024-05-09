@@ -10,3 +10,4 @@ router.put("/:id", eventController.updateEvent);  //Defines a route for handling
 router.delete("/:id", eventController.deleteEvent);  //Defines a route for handling DELETE requests to a specific event ID path 
 
 module.exports = router;
+ 
