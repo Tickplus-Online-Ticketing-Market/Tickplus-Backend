@@ -30,4 +30,6 @@ app.get("/", (req, res) => {
 app.use("/example", exampleRoutes);
 
 // Start the server
+
 app.listen(process.env.PORT);
+const eventRouter = require("./routes/EventRoute");
