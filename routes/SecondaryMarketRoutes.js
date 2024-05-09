@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const AuctionController = require("../controllers/SecondaryMarket/AuctionController");
+const BidController = require("../controllers/SecondaryMarket/BidController");
 
+// Auction Listings
 router.post("/my-auction-listings", AuctionController.createAuctionListing); // create
-
 router.put("/my-auction-listings/:id", AuctionController.updateAuctionListing); // update
 router.delete(
   "/my-auction-listings/:id",
@@ -25,4 +26,12 @@ router.get(
   "/my-auction-listings/:id",
   AuctionController.retrieveAuctionListing
 ); // retrieve
+
+// Bids
+router.post("/my-bids", BidController.createBid); // create
+router.delete("/my-bids/:id", BidController.deleteBid); // delete
+router.get("/my-bids", BidController.retrieveAllBids); // retrieve all
+router.get("/my-bids/my/:spectatorId", BidController.retrieveAllMyBids); // retrieve all my
+router.get("/my-bids/:id", BidController.retrieveBid); // retrieve by Id
+
 module.exports = router;

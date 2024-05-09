@@ -94,7 +94,7 @@ const deleteAuctionListing = async (req, res) => {
 const retrieveAllAuctionListings = async (req, res) => {
   try {
     let auctionListings = await AuctionListing.find();
-    auctionListings = handleStatus(auctionListings);
+    auctionListings = await handleStatus(res, auctionListings);
 
     res.json({ auctionListings });
   } catch (error) {
@@ -104,9 +104,11 @@ const retrieveAllAuctionListings = async (req, res) => {
 
 const retrieveAllMyAuctionListings = async (req, res) => {
   try {
-    const auctionListings = await AuctionListing.find({
+    let auctionListings = await AuctionListing.find({
       spectatorId: req.params.spectatorId,
     }).sort({ auctionStatus: 1 });
+
+    auctionListings = await handleStatus(res, auctionListings);
 
     res.json({ auctionListings });
   } catch (error) {
@@ -119,10 +121,7 @@ const retrieveActiveAuctionListings = async (req, res) => {
     let auctionListings = await AuctionListing.find({
       auctionStatus: "Active",
     });
-    auctionListings = handleStatus(res, auctionListings);
-
-    // Save the updated auction listings
-    await Promise.all(auctionListings.map((auction) => auction.save()));
+    auctionListings = await handleStatus(res, auctionListings);
 
     res.json({ auctionListings });
   } catch (error) {
@@ -130,7 +129,7 @@ const retrieveActiveAuctionListings = async (req, res) => {
   }
 };
 
-const handleStatus = (res, auctionListings) => {
+const handleStatus = async (res, auctionListings) => {
   try {
     const currentDate = new Date();
 
@@ -157,6 +156,9 @@ const handleStatus = (res, auctionListings) => {
         );
       }
     }
+    // Save the updated auction listings
+    await Promise.all(auctionListings.map((auction) => auction.save()));
+
     return auctionListings;
   } catch (error) {
     handleServerError(res, error);
