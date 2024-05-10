@@ -1,89 +1,9 @@
 const AuctionListing = require("../../models/AuctionListing");
-
-const createAuctionListing = async (req, res) => {
-  try {
-    const {
-      ticketId,
-      spectatorId,
-      startingPrice,
-      startDate,
-      auctionDays,
-      remainingDays,
-      winningBid,
-      auctionStatus,
-    } = req.body;
-
-    const auctionListing = await AuctionListing.create({
-      ticketId,
-      spectatorId,
-      startingPrice,
-      startDate,
-      auctionDays,
-      remainingDays,
-      winningBid,
-      auctionStatus,
-    });
-
-    res.status(201).json({ auctionListing });
-  } catch (error) {
-    handleServerError(res, error);
-  }
-};
+const Bid = require("../../models/Bid");
 
 const retrieveAuctionListing = async (req, res) => {
   try {
     const auctionListing = await AuctionListing.findById(req.params.id);
-
-    res.json({ auctionListing });
-  } catch (error) {
-    handleServerError(res, error);
-  }
-};
-
-const updateAuctionListing = async (req, res) => {
-  try {
-    const {
-      ticketId,
-      spectatorId,
-      startingPrice,
-      startDate,
-      auctionDays,
-      remainingDays,
-      winningBid,
-      auctionStatus,
-    } = req.body;
-
-    const auctionId = req.params.id;
-
-    // Construct the update object
-    const updateData = {
-      ticketId,
-      spectatorId,
-      startingPrice,
-      startDate,
-      auctionDays,
-      remainingDays,
-      winningBid,
-      auctionStatus,
-    };
-
-    // Update the auction listing
-    await AuctionListing.findByIdAndUpdate(auctionId, updateData);
-
-    // Fetch the updated auction listing
-    const auctionListing = await AuctionListing.findById(auctionId);
-
-    res.json({ auctionListing });
-  } catch (error) {
-    handleServerError(res, error);
-  }
-};
-
-const deleteAuctionListing = async (req, res) => {
-  try {
-    const auctionListing = await AuctionListing.findByIdAndDelete(
-      req.params.id
-    );
 
     res.json({ auctionListing });
   } catch (error) {
@@ -102,7 +22,7 @@ const retrieveAllAuctionListings = async (req, res) => {
   }
 };
 
-const retrieveAllMyAuctionListings = async (req, res) => {
+const retrieveAllAuctionPrices = async (req, res) => {
   try {
     let auctionListings = await AuctionListing.find({
       spectatorId: req.params.spectatorId,
@@ -187,12 +107,9 @@ const handleServerError = (res, error) => {
 };
 
 module.exports = {
-  createAuctionListing,
   retrieveAuctionListing,
-  updateAuctionListing,
-  deleteAuctionListing,
   retrieveAllAuctionListings,
-  retrieveAllMyAuctionListings,
+  retrieveAllAuctionPrices,
   retrieveActiveAuctionListings,
   retrieveCompletedAuctionListings,
 };

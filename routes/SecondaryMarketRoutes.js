@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const AuctionController = require("../controllers/SecondaryMarket/AuctionController");
 const BidController = require("../controllers/SecondaryMarket/BidController");
+const AnalyticsController = require("../controllers/SecondaryMarket/AnalyticsController");
 
 // Auction Listings
 router.post("/my-auction-listings", AuctionController.createAuctionListing); // create
@@ -19,6 +20,10 @@ router.get(
   AuctionController.retrieveActiveAuctionListings
 ); // retrieve all
 router.get(
+  "/my-auction-listings/Completed",
+  AuctionController.retrieveCompletedAuctionListings
+); // retrieve All Completed
+router.get(
   "/my-auction-listings/my/:spectatorId",
   AuctionController.retrieveAllMyAuctionListings
 ); // retrieve all
@@ -33,5 +38,7 @@ router.delete("/my-bids/:id", BidController.deleteBid); // delete
 router.get("/my-bids", BidController.retrieveAllBids); // retrieve all
 router.get("/my-bids/my/:spectatorId", BidController.retrieveAllMyBids); // retrieve all my
 router.get("/my-bids/:id", BidController.retrieveBid); // retrieve by Id
+
+// Analytics
 
 module.exports = router;
