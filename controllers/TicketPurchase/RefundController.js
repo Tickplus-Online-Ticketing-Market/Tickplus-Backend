@@ -62,7 +62,7 @@ const deleteRefund = async (req, res) => {
         res.json({ success: "Refund record deleted successfully" });
     } catch (error) {
         console.error("Error deleting refund:", error);
-        res.status(500).json({ error: "Failed to delete refund. Please try again later." });
+        res.status(500).json({ error: "Failed to delete." });
     }
 };
 
