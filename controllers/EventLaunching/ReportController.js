@@ -1,4 +1,4 @@
-const Event = require("../../models/Report");
+const Report = require("../../models/Report");
 // Get all report counts
 
 const getTemplateCount = async (req, res, next) => {
@@ -37,13 +37,14 @@ const getRequestCount = async (req, res, next) => {
 // Update  existing template count
 
 const updateTemplateCount = async (req, res, next) => {
-    const { id } = req.body;
+    
     try {
-      let report = await Report.findById(id);
+      let report = await Report.find({
+        user_id: req.params.id,});
       if (!report) {
         return res.status(404).json({ message: "Report not found" });
       }
-      report.tempcount = (report.tempcount || 0) + 1; // Increment tempcount
+      report.temp_count = (report.temp_count || 0) + 1; // Increment tempcount
       report = await report.save(); // Save the updated report
       return res.status(200).json({ report });
     } catch (err) {
