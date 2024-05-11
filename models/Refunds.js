@@ -4,8 +4,8 @@ const refundSchema = new mongoose.Schema({
     event: String,
     tCode: String,
     email: String,
+    mobile: Number,
     reason: String,
-    addNote: String,
 });
 
 const Refund = mongoose.model('Refund', refundSchema);

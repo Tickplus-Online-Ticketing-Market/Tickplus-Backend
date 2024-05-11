@@ -14,13 +14,13 @@ const fetchAllRefunds = async (req, res) => {
 // Create a record
 const createRefund = async (req, res) => {
     try {
-        const { event, tCode, email, reason, addNote } = req.body;
+        const { event, tCode, email, mobile, reason } = req.body;
         const refund = await Refunds.create({
             event,
             tCode,
             email,
-            reason,
-            addNote
+            mobile,
+            reason
         });
         res.json({ refund });
     } catch (error) {
@@ -33,13 +33,13 @@ const createRefund = async (req, res) => {
 const updateRefund = async (req, res) => {
     try {
         const refundId = req.params.id;
-        const { event, tCode, email, reason, addNote } = req.body;
+        const { event, tCode, email, mobile, reason } = req.body;
         const updatedRefund = await Refunds.findByIdAndUpdate(refundId, {
             event,
             tCode,
             email,
-            reason,
-            addNote
+            mobile,
+            reason
         }, { new: true });
         if (!updatedRefund) {
             return res.status(404).json({ error: "Refund not found" });
