@@ -40,5 +40,17 @@ router.get("/my-bids/my/:spectatorId", BidController.retrieveAllMyBids); // retr
 router.get("/my-bids/:id", BidController.retrieveBid); // retrieve by Id
 
 // Analytics
+router.get(
+  "/analytics/auctions-byprofit",
+  AnalyticsController.retrieveAllAuctionByProfit
+);
+router.get(
+  "/analytics/auctions-bystatus",
+  AnalyticsController.countAllAuctionByStatus
+);
+router.get(
+  "/analytics/bids-bystatus",
+  AnalyticsController.countAllBidsByStatus
+);
 
 module.exports = router;

@@ -1,20 +1,46 @@
 const AuctionListing = require("../../models/AuctionListing");
 const Bid = require("../../models/Bid");
 
-const retrieveAuctionListing = async (req, res) => {
+const retrieveAllAuctionByProfit = async (req, res) => {
   try {
-    const auctionListing = await AuctionListing.findById(req.params.id);
-
-    res.json({ auctionListing });
-  } catch (error) {
-    handleServerError(res, error);
-  }
-};
-
-const retrieveAllAuctionListings = async (req, res) => {
-  try {
-    let auctionListings = await AuctionListing.find();
-    auctionListings = await handleStatus(res, auctionListings);
+    let auctionListings = await AuctionListing.aggregate([
+      {
+        $match: {
+          winningBid: { $ne: "No Bids Placed" },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          ticketId: 1,
+          startDate: 1,
+          startingPrice: 1,
+          winningBid: {
+            $cond: [
+              { $eq: ["$winningBid", "No Bids Placed"] },
+              0, // If winningBid is "No Bids Placed", set it to 0
+              { $toDouble: "$winningBid" }, // Convert winningBid to double
+            ],
+          },
+        },
+      },
+      {
+        $match: {
+          winningBid: { $ne: null }, // Filter out listings where winningBid is null
+        },
+      },
+      {
+        $addFields: {
+          difference: { $subtract: ["$winningBid", "$startingPrice"] },
+        },
+      },
+      {
+        $sort: { difference: -1 },
+      },
+      {
+        $limit: 10,
+      },
+    ]);
 
     res.json({ auctionListings });
   } catch (error) {
@@ -22,79 +48,54 @@ const retrieveAllAuctionListings = async (req, res) => {
   }
 };
 
-const retrieveAllAuctionPrices = async (req, res) => {
+const countAllAuctionByStatus = async (req, res) => {
   try {
-    let auctionListings = await AuctionListing.find({
-      spectatorId: req.params.spectatorId,
-    }).sort({ auctionStatus: 1 });
+    let auctionStatusCounts = await AuctionListing.aggregate([
+      {
+        $group: {
+          _id: "$auctionStatus",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          name: "$_id",
+          value: "$count",
+          _id: 0, // Exclude _id field
+        },
+      },
+    ]);
 
-    auctionListings = await handleStatus(res, auctionListings);
-
-    res.json({ auctionListings });
+    res.json({ auctionStatusCounts });
   } catch (error) {
     handleServerError(res, error);
   }
 };
 
-const retrieveActiveAuctionListings = async (req, res) => {
+const countAllBidsByStatus = async (req, res) => {
   try {
-    let auctionListings = await AuctionListing.find({
-      auctionStatus: "Active",
-    });
-    auctionListings = await handleStatus(res, auctionListings);
+    let bidsStatusCounts = await Bid.aggregate([
+      {
+        $match: {
+          bidStatus: { $exists: true }, // Filter out documents where bidStatus doesn't exist
+        },
+      },
+      {
+        $group: {
+          _id: "$bidStatus",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          name: "$_id",
+          value: "$count",
+          _id: 0, // Exclude _id field
+        },
+      },
+    ]);
 
-    res.json({ auctionListings });
-  } catch (error) {
-    handleServerError(res, error);
-  }
-};
-
-const retrieveCompletedAuctionListings = async (req, res) => {
-  try {
-    let auctionListings = await AuctionListing.find({
-      auctionStatus: "Completed",
-    })
-      .sort({ startDate: -1 })
-      .limit(5);
-    auctionListings = await handleStatus(res, auctionListings);
-
-    res.json({ auctionListings });
-  } catch (error) {
-    handleServerError(res, error);
-  }
-};
-
-const handleStatus = async (res, auctionListings) => {
-  try {
-    const currentDate = new Date();
-
-    for (let i = 0; i < auctionListings.length; i++) {
-      const auctionStartDate = new Date(auctionListings[i].startDate);
-      const auctionDays = auctionListings[i].auctionDays;
-
-      // Calculate the difference in milliseconds between current date and start date
-      const timeDifferenceMs = currentDate - auctionStartDate;
-      // Convert milliseconds to days
-      const daysDifference = timeDifferenceMs / (1000 * 60 * 60 * 24);
-
-      // Check if the auction is completed
-      if (daysDifference > auctionDays) {
-        // Set auction status to "Completed"
-        auctionListings[i].auctionStatus = "Completed";
-        auctionListings[i].remainingDays = 0;
-      } else {
-        // Set auction status to "Active"
-        auctionListings[i].auctionStatus = "Active";
-        // Set remaining days for the auction
-        auctionListings[i].remainingDays = Math.ceil(
-          auctionDays - daysDifference
-        );
-      }
-    }
-    // Save the updated auction listings
-    await Promise.all(auctionListings.map((auction) => auction.save()));
-
-    return auctionListings;
+    res.json({ bidsStatusCounts });
   } catch (error) {
     handleServerError(res, error);
   }
@@ -107,9 +108,7 @@ const handleServerError = (res, error) => {
 };
 
 module.exports = {
-  retrieveAuctionListing,
-  retrieveAllAuctionListings,
-  retrieveAllAuctionPrices,
-  retrieveActiveAuctionListings,
-  retrieveCompletedAuctionListings,
+  retrieveAllAuctionByProfit,
+  countAllAuctionByStatus,
+  countAllBidsByStatus,
 };

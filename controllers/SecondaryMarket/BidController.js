@@ -44,6 +44,7 @@ const deleteBid = async (req, res) => {
 
 const retrieveAllBids = async (req, res) => {
   try {
+    await updateBidStatusForAllAuctions();
     const bids = await Bid.find();
 
     res.json({ bids });
@@ -54,6 +55,7 @@ const retrieveAllBids = async (req, res) => {
 
 const retrieveAllMyBids = async (req, res) => {
   try {
+    await updateBidStatusForAllAuctions();
     const bids = await Bid.find({
       spectatorId: req.params.spectatorId,
     });
@@ -96,13 +98,13 @@ const updateBidStatusForAuction = async (auctionId) => {
       { auctionId },
       {
         $set: {
-          bidStatus:
-            maxBid._id.toString() === bids[0]._id.toString()
-              ? "Winning"
-              : "Losing",
+          bidStatus: "Losing",
         },
       }
     );
+
+    // Update the bid with the maximum bid value to "Winning"
+    await Bid.findByIdAndUpdate(maxBid._id, { $set: { bidStatus: "Winning" } });
 
     // Update the winningBid field in the associated AuctionListing
     await AuctionListing.findByIdAndUpdate(auctionId, {
@@ -158,10 +160,6 @@ const updateBidStatusForAllAuctions = async () => {
   }
 };
 
-module.exports = {
-  updateBidStatusForAllAuctions,
-};
-
 const handleServerError = (res, error) => {
   res
     .status(500)
@@ -174,4 +172,5 @@ module.exports = {
   deleteBid,
   retrieveAllBids,
   retrieveAllMyBids,
+  updateBidStatusForAllAuctions,
 };

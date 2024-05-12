@@ -106,8 +106,9 @@ const retrieveAllMyAuctionListings = async (req, res) => {
   try {
     let auctionListings = await AuctionListing.find({
       spectatorId: req.params.spectatorId,
-    }).sort({ auctionStatus: 1 });
-
+    })
+      .sort({ auctionStatus: 1 })
+      .sort({ startDate: -1 });
     auctionListings = await handleStatus(res, auctionListings);
 
     res.json({ auctionListings });
@@ -159,8 +160,14 @@ const handleStatus = async (res, auctionListings) => {
 
       // Check if the auction is completed
       if (daysDifference > auctionDays) {
-        // Set auction status to "Completed"
-        auctionListings[i].auctionStatus = "Completed";
+        // Check if there's no winning bid
+        if (auctionListings[i].winningBid === "No Bids Placed") {
+          // Set auction status to "Canceled"
+          auctionListings[i].auctionStatus = "Cancelled";
+        } else {
+          // Set auction status to "Completed"
+          auctionListings[i].auctionStatus = "Completed";
+        }
         auctionListings[i].remainingDays = 0;
       } else {
         // Set auction status to "Active"
