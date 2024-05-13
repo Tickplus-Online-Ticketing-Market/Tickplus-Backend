@@ -6,6 +6,8 @@ const ReportController = require("../controllers/EventLaunching/ReportController
 
 router.get("/report/:id", ReportController.getTemplateCount);
 router.put("/report/:id", ReportController.updateTemplateCount); 
+router.get("/requestreport/:id", ReportController.getRequestCount);
+router.put("/requestreport/:id", ReportController.updateRequestCount); 
 
 router.get("/", eventController.getAllEvents);   //Defines a route for handling GET requests 
 router.post("/", eventController.addEvent);       //Defines a route for handling POST requests 
