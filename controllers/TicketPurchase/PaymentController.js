@@ -15,14 +15,14 @@ const fetchAllPays = async (req, res) => {
   // Create a new payment
 const createPay =   async (req, res) => {
     try {
-      const { eventId, eventName, unitPrice, qty, totalCost, cardNum } = req.body;
+      const { eventId, eventName, unitPrice, count, totalCost, customerName } = req.body;
       const pay = await Payments.create({
         eventId,
         eventName,
         unitPrice,
-        qty,
+        count,
         totalCost,
-        cardNum
+        customerName
       });
       res.json({ pay })
     } catch (error) {
