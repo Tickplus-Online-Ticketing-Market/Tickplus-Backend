@@ -10,6 +10,20 @@ const fetchAllRefunds = async (req, res) => {
         res.status(500).json({ error: "Failed to fetch refunds. Please try again later." });
     }
 };
+// Fetch one record by ID
+const fetchOneRefund = async (req, res) => {
+    try {
+        const refundId = req.params.id;
+        const refund = await Refunds.findById(refundId);
+        if (!refund) {
+            return res.status(404).json({ error: "Refund not found" });
+        }
+        res.json({ refund });
+    } catch (error) {
+        console.error("Error", error);
+        res.status(500).json({ error: "Failed to fetch refund" });
+    }
+};
 
 // Create a record
 const createRefund = async (req, res) => {
@@ -68,6 +82,7 @@ const deleteRefund = async (req, res) => {
 
 module.exports = {
     fetchAllRefunds,
+    fetchOneRefund,
     createRefund,
     updateRefund,
     deleteRefund,
