@@ -37,15 +37,15 @@ const eventSchema = new Schema({     //Defines a new schema for events with the 
     type: Number,
     required: true,
   },
-  downloadCount:{
-    type: Number,
+  // downloadCount:{
+  //   type: Number,
     
-  },
+  // },
   
-  requestCount:{
-    type: Number,
+  // requestCount:{
+  //   type: Number,
     
-  },
+  // },
 });
 
 module.exports = mongoose.model("Event", eventSchema);
