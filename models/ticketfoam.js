@@ -9,6 +9,7 @@ const ticketSchema = new mongoose.Schema({
   ticketPrice: String,
   ticketStatus: String,
   ticketMode: String,
+  created_at: { type: String, default: () => new Date().toISOString() },
 });
 
 const Ticketfoam = mongoose.model("Ticketfoam", ticketSchema);
