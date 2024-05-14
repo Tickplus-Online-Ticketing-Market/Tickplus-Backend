@@ -1,4 +1,4 @@
-const RequestM = require("../../models/RequestModel.js");
+const RequestM = require("../../models/PostModel.js");
 const { upload } = require("./utils/multer.js");
 const path = require("path");
 
@@ -57,6 +57,7 @@ const uploadFile = (req, res, next) => {
       res.status(500).json({ message: error.message });
     });
 };
+
 
 // data Insert
 const addRequest = async (req, res, next) => {
