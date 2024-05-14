@@ -15,6 +15,7 @@ const SponsershipManagementRoutes = require("./routes/SponsershipManagementRoute
 const eventRouter = require("./routes/EventRoute");
 const CommunityPageRoutes = require("./routes/CommunityPageRoutes");
 const secondaryMarketRoutes = require("./routes/SecondaryMarketRoutes");
+const DigitalCustomizationRoutes = require("./routes/DigitalCustomization");
 
 // Create an Express app
 const app = express();
@@ -38,6 +39,7 @@ app.use("/sponsership-management", SponsershipManagementRoutes);
 app.use("/events", eventRouter);
 app.use("/community-page", CommunityPageRoutes);
 app.use("/secondary-market", secondaryMarketRoutes);
+app.use("/digital-customization", DigitalCustomizationRoutes);
 
 // Start the server
 
