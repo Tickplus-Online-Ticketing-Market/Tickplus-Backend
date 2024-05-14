@@ -2,8 +2,13 @@ const Tickets = require("../../models/Tickets");
 
 // Fetch all records
 const fetchAllTickets = async (req, res) => {
-  const allTickets = await Tickets.find();
-  res.json({ Tickets: allTickets });
+  try {
+    const allTickets = await Tickets.find();
+    res.json({ Tickets: allTickets });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 // Fetch one record
@@ -17,6 +22,7 @@ const fetchOneTicket = async (req, res) => {
     res.json({ Tickets: ticket });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -32,6 +38,7 @@ const createTicket = async (req, res) => {
     res.json({ Tickets: ticket });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
