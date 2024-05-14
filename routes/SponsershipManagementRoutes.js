@@ -1,11 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const exampleController = require("../controllers/_ExampleController/_ExampleController");
+const eventController = require("../controllers/SponsershipManagement/eventController");
+const requestController = require("../controllers/SponsershipManagement/requestController");
 
-router.post("/", exampleController.createExample); // create
-router.get("/:id", exampleController.retrieveExample); // retrieve
-router.put("/:id", exampleController.updateExample); // update
-router.delete("/:id", exampleController.deleteExample); // delete
-router.get("/", exampleController.retrieveAllExamples); // retrieve all
+router.post("/", eventController.createEvent); // create
+router.get("/:id", eventController.fetchEvent); // retrieve
+router.put("/:id", eventController.updateEvent); // update
+router.delete("/:id", eventController.deleteEvent); // delete
+router.get("/", eventController.fetchEvents); // retrieve all
+
+router.post("/", requestController.createRequest); // create
+router.get("/:id", requestController.fetchRequest); // retrieve
+router.put("/:id", requestController.updateRequest); // update
+router.delete("/:id", requestController.deleteRequest); // delete
+router.get("/", requestController.fetchRequests); // retrieve all
 
 module.exports = router;
