@@ -12,6 +12,7 @@ const ConnectToDB = require("./config/ConnectToDB");
 const exampleRoutes = require("./routes/_ExapmleRoutes");
 const TicketLaunchingRoutes = require("./routes/TicketLaunchingRoutes");
 const SponsershipManagementRoutes = require("./routes/SponsershipManagementRoutes");
+const eventRouter = require("./routes/EventRoute");
 
 // Create an Express app
 const app = express();
@@ -32,6 +33,8 @@ app.get("/", (req, res) => {
 app.use("/example", exampleRoutes);
 app.use("/ticket-launching", TicketLaunchingRoutes);
 app.use("/sponsership-management", SponsershipManagementRoutes);
+app.use("/events", eventRouter);
 
 // Start the server
+
 app.listen(process.env.PORT);
