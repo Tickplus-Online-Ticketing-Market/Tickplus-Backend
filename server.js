@@ -9,7 +9,7 @@ const cors = require("cors");
 const ConnectToDB = require("./config/ConnectToDB");
 
 // Import routes
-const exampleRoutes = require("./routes/_ExapmleRoutes");
+const TicketPurchaseRouter = require("./routes/TicketPurchaseRouter");
 const TicketLaunchingRoutes = require("./routes/TicketLaunchingRoutes");
 const SponsershipManagementRoutes = require("./routes/SponsershipManagementRoutes");
 const eventRouter = require("./routes/EventRoute");
@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
 });
 
 // Component Routing
-app.use("/example", exampleRoutes);
+app.use("/tpp", TicketPurchaseRouter);
 app.use("/ticket-launching", TicketLaunchingRoutes);
 app.use("/sponsership-management", SponsershipManagementRoutes);
 app.use("/events", eventRouter);
