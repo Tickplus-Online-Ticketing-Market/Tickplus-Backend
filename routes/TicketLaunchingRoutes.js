@@ -33,4 +33,23 @@ router.get(
   analyticsController.getTicketCountsByEventname
 );
 
+//Tepmlate clcks
+// Route to record click for system template
+router.put("/click-count/system", async (req, res) => {
+  const result = await TemplateController.recordClick("system");
+  res.json(result);
+});
+
+// Route to record click for custom template
+router.put("/click-count/custom", async (req, res) => {
+  const result = await TemplateController.recordClick("custom");
+  res.json(result);
+});
+
+// Route to get click counts
+router.get("/clickCounts", async (req, res) => {
+  const clickCounts = await TemplateController.getClickCounts();
+  res.json(clickCounts);
+});
+
 module.exports = router;
