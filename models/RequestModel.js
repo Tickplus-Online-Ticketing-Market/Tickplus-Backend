@@ -29,4 +29,8 @@ const RequestSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Request", RequestSchema);
+// Check if the model already exists before defining it
+const Request =
+  mongoose.models.Request || mongoose.model("Request", RequestSchema);
+
+module.exports = Request;
