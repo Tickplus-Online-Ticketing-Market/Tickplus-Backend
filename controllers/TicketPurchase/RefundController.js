@@ -1,6 +1,6 @@
+const express = require("express");
 const Refunds = require("../../models/Refunds");
 
-// Fetch all records
 const fetchAllRefunds = async (req, res) => {
     try {
         const allRefunds = await Refunds.find();
@@ -10,7 +10,7 @@ const fetchAllRefunds = async (req, res) => {
         res.status(500).json({ error: "Failed to fetch refunds. Please try again later." });
     }
 };
-// Fetch one record by ID
+
 const fetchOneRefund = async (req, res) => {
     try {
         const refundId = req.params.id;
@@ -20,21 +20,24 @@ const fetchOneRefund = async (req, res) => {
         }
         res.json({ refund });
     } catch (error) {
-        console.error("Error", error);
+        console.error("Error fetching refund:", error);
         res.status(500).json({ error: "Failed to fetch refund" });
     }
 };
 
-// Create a record
 const createRefund = async (req, res) => {
     try {
-        const { event, tCode, email, mobile, reason } = req.body;
+        const { customerName, eventName, eventId, unitPrice, count, totalCost, email, mobile, reason } = req.body;
         const refund = await Refunds.create({
-            event,
-            tCode,
+            customerName,
+            eventName,
+            eventId,
+            unitPrice,
+            count,
+            totalCost,
             email,
             mobile,
-            reason
+            reason,
         });
         res.json({ refund });
     } catch (error) {
@@ -43,17 +46,20 @@ const createRefund = async (req, res) => {
     }
 };
 
-// Update a record
 const updateRefund = async (req, res) => {
     try {
         const refundId = req.params.id;
-        const { event, tCode, email, mobile, reason } = req.body;
+        const { customerName, eventName, eventId, unitPrice, count, totalCost, email, mobile, reason } = req.body;
         const updatedRefund = await Refunds.findByIdAndUpdate(refundId, {
-            event,
-            tCode,
+            customerName,
+            eventName,
+            eventId,
+            unitPrice,
+            count,
+            totalCost,
             email,
             mobile,
-            reason
+            reason,
         }, { new: true });
         if (!updatedRefund) {
             return res.status(404).json({ error: "Refund not found" });
@@ -65,7 +71,6 @@ const updateRefund = async (req, res) => {
     }
 };
 
-// Delete a record
 const deleteRefund = async (req, res) => {
     try {
         const refundId = req.params.id;
@@ -76,7 +81,7 @@ const deleteRefund = async (req, res) => {
         res.json({ success: "Refund record deleted successfully" });
     } catch (error) {
         console.error("Error deleting refund:", error);
-        res.status(500).json({ error: "Failed to delete." });
+        res.status(500).json({ error: "Failed to delete refund. Please try again later." });
     }
 };
 

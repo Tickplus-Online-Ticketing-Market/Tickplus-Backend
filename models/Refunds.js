@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 
 const refundSchema = new mongoose.Schema({
-    event: String,
-    tCode: String,
+    customerName: String,
+    eventName: String,
+    eventId: String,
+    unitPrice: Number,
+    count: Number,
+    totalCost: Number,
     email: String,
     mobile: Number,
     reason: String,
