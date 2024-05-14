@@ -4,6 +4,7 @@ const router = express.Router();
 const ticketfoamController = require("../controllers/TicketLaunching/ticketfoamController");
 const customfoamController = require("../controllers/TicketLaunching/customfoamController");
 const analyticsController = require("../controllers/TicketLaunching/analyticsController");
+const TemplateController = require("../controllers/TicketLaunching/TemplateController");
 
 //Routiing
 //Retrieve
