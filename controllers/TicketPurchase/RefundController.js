@@ -1,3 +1,5 @@
+// RefundController.js
+
 const express = require("express");
 const Refunds = require("../../models/Refunds");
 
@@ -85,10 +87,35 @@ const deleteRefund = async (req, res) => {
     }
 };
 
+// Bar Chart
+const fetchRefundsSumByEvent = async (req, res) => {
+    try {
+        const refundsSum = await Refunds.aggregate([
+            {
+                $group: {
+                    _id: "$eventName",
+                    count: { $sum: "$count" }
+                }
+            }
+        ]);
+        
+       
+        if (refundsSum.length === 0) {
+            return res.json({ refundsSum: [] }); 
+        }
+        
+        res.json({ refundsSum });
+    } catch (error) {
+        console.error("Error fetching refunds sum:", error);
+        res.status(500).json({ error: "Failed to fetch refunds sum." });
+    }
+};
+
 module.exports = {
     fetchAllRefunds,
     fetchOneRefund,
     createRefund,
     updateRefund,
     deleteRefund,
+    fetchRefundsSumByEvent,
 };
