@@ -7,6 +7,12 @@ const requestSchema = new mongoose.Schema({
     budget: String,
     email: String,
     addNote: String,
+    eventName: String,
+    eventId: String,
+    venue: String,
+    date: String,
+    artists: String,
+    attendees: String
   });
 
   const Request = mongoose.model('Request', requestSchema);

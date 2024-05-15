@@ -34,11 +34,11 @@ const fetchEvent = async (req, res) => {
 const createEvent = async (req, res) => {
     try {
         // get the sent in data from request body
-        const { eName, eId, venue, date, artists, attendees, status } = req.body;
+        const { eventName, eventId, venue, date, artists, attendees, status } = req.body;
         // create an event with it
         const event = await Event.create({
-            eName,
-            eId,
+            eventName,
+            eventId,
             venue,
             date,
             artists,
