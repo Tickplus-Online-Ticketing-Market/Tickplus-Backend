@@ -29,4 +29,4 @@ const RequestSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Request", RequestSchema);
+module.exports = mongoose.model("CustomRequest", RequestSchema);
