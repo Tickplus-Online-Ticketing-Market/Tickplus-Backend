@@ -10,9 +10,9 @@ const requestSchema = new mongoose.Schema({
     eventName: String,
     eventId: String,
     venue: String,
-    date: String,
+    date: Date,
     artists: String,
-    attendees: String
+    time: String
   });
 
   const Request = mongoose.model('Request', requestSchema);

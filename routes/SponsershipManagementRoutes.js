@@ -3,11 +3,9 @@ const router = express.Router();
 const eventController = require("../controllers/SponsershipManagement/eventController");
 const requestController = require("../controllers/SponsershipManagement/requestController");
 
-router.post("/event", eventController.createEvent); // create
-router.get("/event/:id", eventController.fetchEvent); // retrieve
-router.put("/event/:id", eventController.updateEvent); // update
-router.delete("/event/:id", eventController.deleteEvent); // delete
-router.get("/event", eventController.fetchEvents); // retrieve all
+// events
+router.get("/event/:id", eventController.getEventById); // retrieve
+router.get("/event", eventController.getAllEvents); // retrieve all
 
 router.post("/request", requestController.createRequest); // create
 router.get("/request/:id", requestController.fetchRequest); // retrieve

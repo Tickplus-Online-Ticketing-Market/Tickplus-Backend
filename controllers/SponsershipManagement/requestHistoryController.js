@@ -34,7 +34,7 @@ const fetchRequest = async(req, res) => {
 const createRequest = async (req, res) => {
     try {
         // get the sent in data from request body
-        const { sponsorName, brandName, sponsorId, budget, email, addNote, name, _id, venue, date, artist, time } = req.body;
+        const { sponsorName, brandName, sponsorId, budget, email, addNote, eventName, eventId, venue, date, artists, attendees } = req.body;
         // create a request with it
         const request = await Request.create({
             sponsorName,
@@ -43,12 +43,12 @@ const createRequest = async (req, res) => {
             budget,
             email,
             addNote,
-            eventName:name,
-            eventId:_id,
+            eventName,
+            eventId,
             venue,
             date,
-            artists:artist,
-            time
+            artists,
+            attendees
         });
         // respond with the new request
         res.json({ request });
