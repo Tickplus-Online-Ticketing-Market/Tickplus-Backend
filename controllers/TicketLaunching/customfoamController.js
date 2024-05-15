@@ -15,12 +15,13 @@ const fetchCustomfoam = async (req, res) => {
 const createCustomfoam = async (req, res) => {
   try {
     // Get the sent in data off request body
-    const { fullname, phoneNumber } = req.body;
+    const { fullname, phoneNumber, ticketDetails } = req.body;
 
     // Create a note with it
     const customfoam = await Customfoam.create({
       fullname,
       phoneNumber,
+      ticketDetails,
     });
     // Respond with the new note
     res.json({ customfoam });
@@ -37,12 +38,13 @@ const updateCustomfoam = async (req, res) => {
     // Get the id off the url
     const customfoamId = req.params.id;
     // Get the data off the req body
-    const { fullname, phoneNumber } = req.body;
+    const { fullname, phoneNumber, ticketDetails } = req.body;
 
     // Find and update the record
     await Customfoam.findByIdAndUpdate(customfoamId, {
       fullname,
       phoneNumber,
+      ticketDetails,
     });
     // Find updated note
     const customfoam = await Customfoam.findById(customfoamId);

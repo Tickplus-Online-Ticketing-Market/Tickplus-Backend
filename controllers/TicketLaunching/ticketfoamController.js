@@ -35,6 +35,7 @@ const createTicketfoam = async (req, res) => {
     ticketQuantity,
     ticketPrice,
     ticketMode,
+    imageUrl,
   } = req.body;
 
   // Generate automatic eventid (e.g., based on timestamp)
@@ -53,6 +54,7 @@ const createTicketfoam = async (req, res) => {
       ticketPrice,
       ticketStatus: "Not Published",
       ticketMode,
+      imageUrl,
     });
     // Respond with the new ticket
     res.json({ ticketfoam });
@@ -79,6 +81,7 @@ const updateTicketfoam = async (req, res) => {
       ticketPrice,
       ticketStatus,
       ticketMode,
+      imageUrl,
     } = req.body;
 
     // Find and update the record
@@ -91,6 +94,7 @@ const updateTicketfoam = async (req, res) => {
       ticketPrice,
       ticketStatus,
       ticketMode,
+      imageUrl,
     });
     // Find updated note
     const ticketfoam = await Ticketfoam.findById(ticketfoamId);
