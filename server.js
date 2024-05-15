@@ -1,33 +1,32 @@
 // Load env variables
 if (process.env.NODE_ENV != "production") {
-  require("dotenv").config();
+    require("dotenv").config();
 }
 
 // Import dependencies
 const express = require("express");
 const cors = require("cors");
-const ConnectToDB = require("./config/ConnectToDB");
+const connectToDb = require("./config/connectToDb");
+const userController = require("./controllers/usersController");
 
-// Import routes
-const exampleRoutes = require("./routes/_ExapmleRoutes");
-
-// Create an Express app
+// Create an express app
 const app = express();
 
 // Configure express app
 app.use(express.json());
 app.use(cors());
 
-// Connect to DB
-ConnectToDB();
+// Connect to database
+connectToDb();
 
 // Routing
-app.get("/", (req, res) => {
-  res.send("Welcome to Tick+");
+app.get('/users',  userController.fetchUsers);
+app.post('/users',  userController.createUser);
+app.post('/users/login', userController.loginUser);
+app.put('/users/:id',  userController.updateUser);
+app.delete("/users/:_id",  userController.deleteUser);
+
+// Start our server
+app.listen(process.env.PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`);
 });
-
-// Component Routing
-app.use("/example", exampleRoutes);
-
-// Start the server
-app.listen(process.env.PORT);
