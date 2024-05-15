@@ -23,7 +23,7 @@ const app = express();
 // Configure express app
 app.use(express.json());
 app.use(cors());
-
+app.use(express.static("uploads/images"));
 // Connect to DB
 ConnectToDB();
 
