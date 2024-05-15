@@ -21,7 +21,7 @@ connectToDb();
 
 // Routing
 app.get('/users',  userController.fetchUsers);
-app.post('/users',  userController.createUser);
+app.post('/users/create',  userController.createUser);
 app.post('/users/login', userController.loginUser);
 app.put('/users/:id',  userController.updateUser);
 app.delete("/users/:_id",  userController.deleteUser);
