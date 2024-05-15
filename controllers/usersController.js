@@ -23,11 +23,12 @@ const createUser = async (req, res) => {
 
         // Hash the password before saving
         const hashedPassword = await bcrypt.hash(password, 10);
+        console.log("Hashed password:", hashedPassword); // Debug line
 
         const user = await User.create({
             username,
             email,
-            password: hashedPassword,
+            password,
             address,
             contactnumber,
             dateOfBirth,
