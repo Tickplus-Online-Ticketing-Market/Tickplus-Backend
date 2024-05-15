@@ -13,4 +13,7 @@ router.put("/request/:id", requestController.updateRequest); // update
 router.delete("/request/:id", requestController.deleteRequest); // delete
 router.get("/request", requestController.fetchRequests); // retrieve all
 
+router.get("/request/update/accept/:id", requestController.updateStatusAccept);//update Status Accept
+router.get("/request/update/reject/:id", requestController.updateStatusReject);//update Status Reject
+
 module.exports = router;
