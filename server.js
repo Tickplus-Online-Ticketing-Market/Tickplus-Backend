@@ -9,6 +9,8 @@ const cors = require("cors");
 const ConnectToDB = require("./config/ConnectToDB");
 
 // Import routes
+const exampleRoutes = require("./routes/_ExapmleRoutes");
+const CommunityPageRoutes = require("./routes/CommunityPageRoutes");
 const TicketPurchaseRouter = require("./routes/TicketPurchaseRouter");
 
 // Create an Express app
@@ -27,6 +29,8 @@ app.get("/", (req, res) => {
 });
 
 // Component Routing
+app.use("/example", exampleRoutes);
+app.use("/community-page", CommunityPageRoutes);
 app.use("/tpp", TicketPurchaseRouter);
 
 // Start the server
