@@ -27,6 +27,9 @@ const auctionListingSchema = new mongoose.Schema({
   winningBid: {
     type: String,
   },
+  imageUrl: {
+    type: String,
+  },
   auctionStatus: {
     type: String,
     enum: ["Active", "Completed", "Cancelled"],

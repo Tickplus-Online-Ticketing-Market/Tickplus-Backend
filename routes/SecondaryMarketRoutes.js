@@ -3,6 +3,7 @@ const router = express.Router();
 const AuctionController = require("../controllers/SecondaryMarket/AuctionController");
 const BidController = require("../controllers/SecondaryMarket/BidController");
 const AnalyticsController = require("../controllers/SecondaryMarket/AnalyticsController");
+const ticketfoamController = require("../controllers/SecondaryMarket/ticketfoamController");
 
 // Auction Listings
 router.post("/my-auction-listings", AuctionController.createAuctionListing); // create
@@ -51,6 +52,11 @@ router.get(
 router.get(
   "/analytics/bids-bystatus",
   AnalyticsController.countAllBidsByStatus
+);
+
+router.get(
+  "/my-auction-listings/get-tickets",
+  AuctionController.retrieveAllAuctionListings
 );
 
 module.exports = router;

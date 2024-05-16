@@ -10,6 +10,7 @@ const createAuctionListing = async (req, res) => {
       auctionDays,
       remainingDays,
       winningBid,
+      imageUrl,
       auctionStatus,
     } = req.body;
 
@@ -21,6 +22,7 @@ const createAuctionListing = async (req, res) => {
       auctionDays,
       remainingDays,
       winningBid,
+      imageUrl,
       auctionStatus,
     });
 
