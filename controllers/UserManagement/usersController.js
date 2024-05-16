@@ -114,27 +114,27 @@ const updateUser = async (req, res) => {
 
 // Delete a user by email
 const deleteUser = async (req, res) => {
-    // Extract email from request body
-    const { email } = req.body;
-  
-    try {
-      // Attempt to find and delete the user by email
-      const user = await User.findOneAndDelete({ email });
-  
-      // If user not found, respond with a 404 status and message
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-  
-      // If deletion is successful, respond with success message
-      res.json({ message: "User deleted successfully" });
-    } catch (error) {
-      // Log error for debugging
-      console.error("Error deleting user:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+  // Extract email from request body
+  const { email } = req.body;
+
+  try {
+    // Attempt to find and delete the user by email
+    const user = await User.findOneAndDelete({ email });
+
+    // If user not found, respond with a 404 status and message
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
-  };
-  
+
+    // If deletion is successful, respond with success message
+    res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    // Log error for debugging
+    console.error("Error deleting user:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   fetchUsers,
   createUser,
