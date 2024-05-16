@@ -31,7 +31,7 @@ const createPay = async (req, res) => {
     }
 };
 
-
+//Get Highest Total
 const fetchHighestTotalCost = async (req, res) => {
     const eventName = req.query.eventname; 
     try {
