@@ -9,7 +9,7 @@ const cors = require("cors");
 const ConnectToDB = require("./config/ConnectToDB");
 
 // Import routes
-const exampleRoutes = require("./routes/_ExapmleRoutes");
+const UserManagementRoutes = require("./routes/UserManagementRoutes");
 const CommunityPageRoutes = require("./routes/CommunityPageRoutes");
 const TicketPurchaseRouter = require("./routes/TicketPurchaseRouter");
 const eventRouter = require("./routes/EventRoute");
@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 });
 
 // Component Routing
-app.use("/example", exampleRoutes);
+app.use("/users", UserManagementRoutes);
 app.use("/community-page", CommunityPageRoutes);
 app.use("/tpp", TicketPurchaseRouter);
 app.use("/events", eventRouter);
