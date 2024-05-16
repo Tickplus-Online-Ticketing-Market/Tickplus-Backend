@@ -14,6 +14,7 @@ const CommunityPageRoutes = require("./routes/CommunityPageRoutes");
 const TicketPurchaseRouter = require("./routes/TicketPurchaseRouter");
 const eventRouter = require("./routes/EventRoute");
 const TicketLaunchingRoutes = require("./routes/TicketLaunchingRoutes");
+const SponsershipManagementRoutes = require("./routes/SponsershipManagementRoutes");
 
 // Create an Express app
 const app = express();
@@ -36,6 +37,7 @@ app.use("/community-page", CommunityPageRoutes);
 app.use("/tpp", TicketPurchaseRouter);
 app.use("/events", eventRouter);
 app.use("/ticket-launching", TicketLaunchingRoutes);
+app.use("/sponsership-management", SponsershipManagementRoutes);
 
 // Start the server
 
