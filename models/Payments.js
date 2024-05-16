@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 
 const paySchema = new mongoose.Schema({
-    eventId: String,
-    eventName: String,
-    unitPrice: Number,
+    eventname: String,
+    ticketPrice: Number,
     count: Number,
     totalCost: Number,
     customerName: String,

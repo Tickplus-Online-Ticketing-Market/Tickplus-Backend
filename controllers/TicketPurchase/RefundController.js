@@ -29,12 +29,11 @@ const fetchOneRefund = async (req, res) => {
 
 const createRefund = async (req, res) => {
     try {
-        const { customerName, eventName, eventId, unitPrice, count, totalCost, email, mobile, reason } = req.body;
+        const { customerName, eventname, ticketPrice, count, totalCost, email, mobile, reason } = req.body;
         const refund = await Refunds.create({
             customerName,
-            eventName,
-            eventId,
-            unitPrice,
+            eventname,
+            ticketPrice,
             count,
             totalCost,
             email,
@@ -51,12 +50,11 @@ const createRefund = async (req, res) => {
 const updateRefund = async (req, res) => {
     try {
         const refundId = req.params.id;
-        const { customerName, eventName, eventId, unitPrice, count, totalCost, email, mobile, reason } = req.body;
+        const { customerName, eventname, ticketPrice, count, totalCost, email, mobile, reason } = req.body;
         const updatedRefund = await Refunds.findByIdAndUpdate(refundId, {
             customerName,
-            eventName,
-            eventId,
-            unitPrice,
+            eventname,
+            ticketPrice,
             count,
             totalCost,
             email,
@@ -93,7 +91,7 @@ const fetchRefundsSumByEvent = async (req, res) => {
         const refundsSum = await Refunds.aggregate([
             {
                 $group: {
-                    _id: "$eventName",
+                    _id: "$eventname",
                     count: { $sum: "$count" }
                 }
             }

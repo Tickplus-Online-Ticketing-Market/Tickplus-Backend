@@ -1,11 +1,20 @@
 const mongoose = require("mongoose");
 
 const ticketSchema = new mongoose.Schema({
-    eventId: String,
-    eventName: String,
-    unitPrice: Number
+  eventname: String,
+  date: String,
+  venue: String,
+  time: String,
+  ticketQuantity: String,
+  ticketPrice: String,
+  ticketStatus: String,
+  ticketMode: String,
+  imageUrl: String,
+  ticketId: String,
+  created_at: String,
 });
 
-const Tickets = mongoose.model('Tickets', ticketSchema);
 
-module.exports = Tickets;
+const Ticketfoam = mongoose.model("Ticketfoam", ticketSchema);
+
+module.exports = Ticketfoam;

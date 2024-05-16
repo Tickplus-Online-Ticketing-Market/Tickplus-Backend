@@ -7,7 +7,6 @@ const RefundController = require("../controllers/TicketPurchase/RefundController
 
 TicketPurchaseRouter.get("/ticks", TicketsController.fetchAllTickets);
 TicketPurchaseRouter.get("/ticks/:id", TicketsController.fetchOneTicket);
-TicketPurchaseRouter.post("/ticks", TicketsController.createTicket);
 
 TicketPurchaseRouter.get("/wishes",WishlistController.fetchAllWishes);
 TicketPurchaseRouter.post("/wishes",WishlistController.createWish);

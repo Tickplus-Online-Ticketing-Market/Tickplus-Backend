@@ -29,11 +29,11 @@ const fetchOneWish = async (req, res) => {
 // Create a wish
 const createWish = async (req, res) => {
     try {
-        const { eventId, eventName, unitPrice } = req.body;
+        const {imageUrl, eventname, ticketPrice } = req.body;
         const wish = await Wishes.create({
-            eventId,
-            eventName,
-            unitPrice
+            imageUrl,
+            eventname,
+            ticketPrice
         });
         res.json({ wish });
     } catch (error) {

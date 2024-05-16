@@ -16,19 +16,8 @@ const fetchOneTicket = async (req, res) => {
     res.json({ Tickets: ticket });
 };
 
-// Create a record
-const createTicket = async (req, res) => {
-    const { eventId, eventName, unitPrice } = req.body;
-    const ticket = await Tickets.create({
-        eventId,
-        eventName,
-        unitPrice
-    });
-    res.json({ Tickets: ticket });
-};
 
 module.exports = {
     fetchAllTickets,
     fetchOneTicket,
-    createTicket,
 };

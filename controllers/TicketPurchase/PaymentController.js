@@ -16,11 +16,10 @@ const fetchAllPays = async (req, res) => {
 // Create a new payment
 const createPay = async (req, res) => {
     try {
-        const { eventId, eventName, unitPrice, count, totalCost, customerName } = req.body;
+        const { eventname, ticketPrice, count, totalCost, customerName } = req.body;
         const pay = await Payments.create({
-            eventId,
-            eventName,
-            unitPrice,
+            eventname,
+            ticketPrice,
             count,
             totalCost,
             customerName
@@ -32,29 +31,26 @@ const createPay = async (req, res) => {
     }
 };
 
-// Fetch highest sum of totalCost along with eventId and eventName
+
 const fetchHighestTotalCost = async (req, res) => {
+    const eventName = req.query.eventname; 
     try {
         const highestTotalCost = await Payments.aggregate([
             {
+                $match: { eventname: eventName } 
+            },
+            {
                 $group: {
-                    _id: "$eventId",
-                    eventName: { $first: "$eventName" },
+                    _id: "$eventname",
                     totalCost: { $sum: "$totalCost" }
                 }
-            },
-            {
-                $sort: { totalCost: -1 }
-            },
-            {
-                $limit: 1
             }
         ]);
 
         res.json(highestTotalCost[0]);
     } catch (error) {
-        console.error("Error fetching highest total cost:", error);
-        res.status(500).json({ error: "Failed to fetch highest total cost." });
+        console.error("Error fetching highest total cost by event:", error);
+        res.status(500).json({ error: "Failed to fetch highest total cost by event." });
     }
 };
 
@@ -64,17 +60,17 @@ const ScatterChart = async (req, res) => {
         const countsSum = await Payments.aggregate([
             {
                 $group: {
-                    _id: "$eventName", // Group by eventName
-                    totalCount: { $sum: "$count" }, // Calculate the sum of counts
-                    date: { $first: "$date" } // Get the date from the first document in the group
+                    _id: "$eventname", 
+                    totalCount: { $sum: "$count" }, 
+                    date: { $first: "$date" } 
                 }
             },
             {
                 $project: {
-                    _id: 0, // Exclude the default _id field
-                    eventName: "$_id", // Rename _id to eventName
-                    totalCount: 1, // Include totalCount field
-                    date: 1 // Include date field
+                    _id: 0, 
+                    eventname: "$_id", 
+                    totalCount: 1, 
+                    date: 1 
                 }
             }
         ]);
@@ -94,7 +90,7 @@ const fetchPaymentsSumByEvent = async (req, res) => {
         const paymentsSum = await Payments.aggregate([
             {
                 $group: {
-                    _id: "$eventName",
+                    _id: "$eventname",
                     count: { $sum: "$count" }
                 }
             }
