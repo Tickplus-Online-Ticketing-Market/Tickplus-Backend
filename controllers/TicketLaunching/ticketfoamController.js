@@ -2,10 +2,10 @@ const Ticketfoam = require("../../models/ticketfoam");
 
 const fetchTicketfoam = async (req, res) => {
   try {
-    // Find the ticketfoam
+    // Find all ticketfoams
     const ticketfoam = await Ticketfoam.find().sort();
     // Respond with them
-    res.json({ ticketfoam });
+    res.status(200).json({ ticketfoam });
   } catch (error) {
     console.error("Error fetching ticketfoam:", error);
     res.status(500).json({ error: "Failed to fetch ticketfoam" });
@@ -14,11 +14,10 @@ const fetchTicketfoam = async (req, res) => {
 
 const fetchPublishedTicketfoam = async (req, res) => {
   try {
-    // Find the published ticketfoam
+    // Find published ticketfoams
     const ticketfoam = await Ticketfoam.find({ ticketStatus: "Published" });
-
     // Respond with them
-    res.json({ ticketfoam });
+    res.status(200).json({ ticketfoam });
   } catch (error) {
     console.error("Error fetching published ticketfoam:", error);
     res.status(500).json({ error: "Failed to fetch published ticketfoam" });
@@ -26,7 +25,6 @@ const fetchPublishedTicketfoam = async (req, res) => {
 };
 
 const createTicketfoam = async (req, res) => {
-  // Get the sent in data off request body
   const {
     eventname,
     date,
@@ -38,7 +36,6 @@ const createTicketfoam = async (req, res) => {
     imageUrl,
   } = req.body;
 
-  // Generate automatic eventid (e.g., based on timestamp)
   const timestamp = Date.now();
   const eventid = `EVENT_${timestamp}`;
 
@@ -57,9 +54,8 @@ const createTicketfoam = async (req, res) => {
       imageUrl,
     });
     // Respond with the new ticket
-    res.json({ ticketfoam });
+    res.status(201).json({ ticketfoam });
   } catch (error) {
-    // Handle errors
     console.error("Error creating ticketfoam:", error);
     res
       .status(500)
@@ -68,38 +64,43 @@ const createTicketfoam = async (req, res) => {
 };
 
 const updateTicketfoam = async (req, res) => {
-  try {
-    // Get the id off the url
-    const ticketfoamId = req.params.id;
-    // Get the data off the req body
-    const {
-      eventname,
-      date,
-      venue,
-      time,
-      ticketQuantity,
-      ticketPrice,
-      ticketStatus,
-      ticketMode,
-      imageUrl,
-    } = req.body;
+  const ticketfoamId = req.params.id;
+  const {
+    eventname,
+    date,
+    venue,
+    time,
+    ticketQuantity,
+    ticketPrice,
+    ticketStatus,
+    ticketMode,
+    imageUrl,
+  } = req.body;
 
+  try {
     // Find and update the record
-    await Ticketfoam.findByIdAndUpdate(ticketfoamId, {
-      eventname,
-      date,
-      venue,
-      time,
-      ticketQuantity,
-      ticketPrice,
-      ticketStatus,
-      ticketMode,
-      imageUrl,
-    });
-    // Find updated note
-    const ticketfoam = await Ticketfoam.findById(ticketfoamId);
-    // Respond with it
-    res.json({ ticketfoam });
+    const ticketfoam = await Ticketfoam.findByIdAndUpdate(
+      ticketfoamId,
+      {
+        eventname,
+        date,
+        venue,
+        time,
+        ticketQuantity,
+        ticketPrice,
+        ticketStatus,
+        ticketMode,
+        imageUrl,
+      },
+      { new: true }
+    );
+
+    if (!ticketfoam) {
+      return res.status(404).json({ error: "Ticket not found" });
+    }
+
+    // Respond with updated ticket
+    res.status(200).json({ ticketfoam });
   } catch (error) {
     console.error("Error updating ticketfoam:", error);
     res
@@ -109,20 +110,22 @@ const updateTicketfoam = async (req, res) => {
 };
 
 const publishTicketfoam = async (req, res) => {
-  try {
-    // Get the id off the url
-    const ticketfoamId = req.params.id;
-    // Get the data off the req body
-    const ticketStatus = {
-      ticketStatus: "Published",
-    };
+  const ticketfoamId = req.params.id;
 
-    // Find and update the record
-    await Ticketfoam.findByIdAndUpdate(ticketfoamId, ticketStatus);
-    // Find updated note
-    const ticketfoam = await Ticketfoam.findById(ticketfoamId);
-    // Respond with it
-    res.json({ ticketfoam });
+  try {
+    // Update ticket status to "Published"
+    const ticketfoam = await Ticketfoam.findByIdAndUpdate(
+      ticketfoamId,
+      { ticketStatus: "Published" },
+      { new: true }
+    );
+
+    if (!ticketfoam) {
+      return res.status(404).json({ error: "Ticket not found" });
+    }
+
+    // Respond with the published ticket
+    res.status(200).json({ ticketfoam });
   } catch (error) {
     console.error("Error publishing ticketfoam:", error);
     res
@@ -132,23 +135,20 @@ const publishTicketfoam = async (req, res) => {
 };
 
 const deleteTicketfoam = async (req, res) => {
-  try {
-    // Get id from URL
-    const ticketfoamId = req.params.id;
+  const ticketfoamId = req.params.id;
 
+  try {
     // Delete the record
     const result = await Ticketfoam.deleteOne({ _id: ticketfoamId });
 
-    // Check if the record was deleted
     if (result.deletedCount === 1) {
       // Respond with success message
-      res.json({ success: "Record deleted" });
+      res.status(200).json({ success: "Record deleted" });
     } else {
       // Respond with error message if the record was not found
       res.status(404).json({ error: "Record not found" });
     }
   } catch (error) {
-    // Respond with error message if any error occurs
     console.error("Error deleting ticketfoam:", error);
     res
       .status(500)
@@ -158,9 +158,9 @@ const deleteTicketfoam = async (req, res) => {
 
 module.exports = {
   fetchTicketfoam,
+  fetchPublishedTicketfoam,
   createTicketfoam,
   updateTicketfoam,
-  deleteTicketfoam,
   publishTicketfoam,
-  fetchPublishedTicketfoam,
+  deleteTicketfoam,
 };
