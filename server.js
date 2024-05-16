@@ -12,6 +12,7 @@ const ConnectToDB = require("./config/ConnectToDB");
 const exampleRoutes = require("./routes/_ExapmleRoutes");
 const CommunityPageRoutes = require("./routes/CommunityPageRoutes");
 const TicketPurchaseRouter = require("./routes/TicketPurchaseRouter");
+const eventRouter = require("./routes/EventRoute");
 
 // Create an Express app
 const app = express();
@@ -32,6 +33,8 @@ app.get("/", (req, res) => {
 app.use("/example", exampleRoutes);
 app.use("/community-page", CommunityPageRoutes);
 app.use("/tpp", TicketPurchaseRouter);
+app.use("/events", eventRouter);
 
 // Start the server
+
 app.listen(process.env.PORT);
