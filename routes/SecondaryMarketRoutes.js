@@ -56,7 +56,7 @@ router.get(
 
 router.get(
   "/my-auction-listings/get-tickets",
-  AuctionController.retrieveAllAuctionListings
+  ticketfoamController.fetchPublishedTicketfoam
 );
 
 module.exports = router;
